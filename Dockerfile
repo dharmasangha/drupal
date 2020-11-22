@@ -8,7 +8,12 @@ RUN apk update && \
         php7-phar \
         wget;
 
+# Required by commerce_stripe, and maybe commerce_google_tag_manager
+RUN docker-php-ext-install bcmath;
+
 WORKDIR /opt/drupal
+
+ENV COMPOSER_MEMORY_LIMIT=-1
 
 RUN composer require \
     drupal/group \
@@ -21,5 +26,10 @@ RUN composer require \
     drupal/geocoder \
     drupal/pathauto \
     drupal/google_tag \
-    drupal/yoast_seo
+    drupal/yoast_seo \
+    drupal/commerce_stripe \
+    drupal/commerce_google_tag_manager \
+    drupal/backup_migrate:5.0.0-rc2;
+
+
 
